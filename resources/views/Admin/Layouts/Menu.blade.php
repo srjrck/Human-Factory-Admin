@@ -29,6 +29,11 @@
           <i class="icon-home"></i><span>Dashboard</span>
         </a>
       </li>
+      <li @if($Menu=='Practitioner') class="active" @endif>
+        <a href="{{route('Practitioner')}}" class="waves-effect">
+          <i class="fa fa-briefcase"></i><span>Practitioner</span>
+        </a>
+      </li>
       <li @if($Menu=='Identifier') class="active" @endif>
         <a href="{{route('Identifier')}}" class="waves-effect">
           <i class="fa fa-briefcase"></i><span>Identifier</span>
