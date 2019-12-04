@@ -41,5 +41,11 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'Admin', 'middleware'=>['IsAdm
 	Route::get('/edit-telecom/{ID}',['as'=>'EditTelecom','uses'=>'TelecomController@Edit']);
 	Route::get('/DeleteTelecom/{ID}',['as'=>'DeleteTelecom','uses'=>'TelecomController@Delete']);
 
+	/*Practitioner*/
+	Route::get('/practitioner',['as'=>'Identifier','uses'=>'PractitionerController@Practitioner']);
+	
+	/*CareTeam*/
+	Route::get('/care-team',['as'=>'CareTeam','uses'=>'CareTeamController@CareTeam']);
+	
 
 });
