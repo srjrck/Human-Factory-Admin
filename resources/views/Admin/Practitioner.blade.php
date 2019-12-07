@@ -32,13 +32,19 @@
                 <div class="col-sm-6">
                   <h5 class="card-title">Practitioner List</h5>
                 </div>
+                <div class="col-sm-6">
+                  <a href="{{route('AddPractitioner')}}">
+                    <button type="button" class="btn btn-secondary m-1 pull-right">Add Practitioner</button>
+                  </a>
+                </div>
               </div>
               <div class="table-responsive">
                 <table class="table table-bordered" id="default-datatable">
                   <thead class="thead-dark">
                     <tr>
                       <th>ID</th>
-                      <th>Resource ID</th>
+                      <th>Family</th>
+                      <th>Given</th>
                       <th>Date</th>
                       <th>Action</th>
                     </tr>
@@ -47,14 +53,22 @@
                     <?php
                     $i=1;
                     foreach($Result as $row){
+                      $name = DB::table('name')->where('resource_id',$row->id)->first();
                     ?>  
                       <tr>
                         <td>{{$i}}</td>
-                        <td>{{$row->id}}</td>
+                        <td>{{$name->family}}</td>
+                        <td>{{$name->given}}</td>
                         <td>{{$row->created_at}}</td>
                         <td>
                           <a href="<?=route('ViewPractitioner',array('ID'=>base64_encode($row->id)))?>">
                             <button class="btn btn-success"> <i class="fa fa-eye"></i> </button>
+                          </a>
+                          <!-- <a href="<?=route('CheckPractitioner',array('ID'=>base64_encode($row->id)))?>">
+                            <button class="btn btn-secondary"> Check </button>
+                          </a> -->
+                          <a href="<?=route('DeletePractitioner',array('ID'=>base64_encode($row->id)))?>" onclick="return confirm('Are you sure?')">
+                            <button class="btn btn-danger"> <i class="fa fa-trash"></i> </button>
                           </a>
                         </td>
                       </tr>

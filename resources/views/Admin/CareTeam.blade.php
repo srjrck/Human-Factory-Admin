@@ -32,13 +32,19 @@
                 <div class="col-sm-6">
                   <h5 class="card-title">CareTeam List</h5>
                 </div>
+                <div class="col-sm-6">
+                  <a href="{{route('AddCareTeam')}}">
+                    <button type="button" class="btn btn-secondary m-1 pull-right">Add CareTeam</button>
+                  </a>
+                </div>
               </div>
               <div class="table-responsive">
                 <table class="table table-bordered" id="default-datatable">
                   <thead class="thead-dark">
                     <tr>
                       <th>ID</th>
-                      <th>Resource ID</th>
+                      <th>Identifier</th>
+                      <th>Name</th>
                       <th>Date</th>
                       <th>Action</th>
                     </tr>
@@ -47,14 +53,20 @@
                     <?php
                     $i=1;
                     foreach($Result as $row){
+                      $identifier = DB::table('identifier')->where('resource_id',$row->id)->first();
+                      $name = DB::table('name')->where('resource_id',$row->id)->first();
                     ?>  
                       <tr>
                         <td>{{$i}}</td>
-                        <td>{{$row->id}}</td>
+                        <td>{{$identifier->value}}</td>
+                        <td>{{$name->family}}</td>
                         <td>{{$row->created_at}}</td>
                         <td>
                           <a href="<?=route('ViewCareTeam',array('ID'=>base64_encode($row->id)))?>">
                             <button class="btn btn-success"> <i class="fa fa-eye"></i> </button>
+                          </a>
+                          <a href="<?=route('DeleteCareTeam',array('ID'=>base64_encode($row->id)))?>" onclick="return confirm('Are you sure?')">
+                            <button class="btn btn-danger"> <i class="fa fa-trash"></i> </button>
                           </a>
                         </td>
                       </tr>
