@@ -13,7 +13,6 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'Admin', 'middleware'=>['IsAdm
 	Route::get('/setting',['as'=>'Setting','uses'=>'SettingController@Setting']);
 	Route::post('/UpdateProfile',['as'=>'UpdateProfile','uses'=>'SettingController@UpdateProfile']);
 	Route::post('/ChangePassword',['as'=>'ChangePassword','uses'=>'SettingController@ChangePassword']);
-	Route::post('/UpdateSocialMedia',['as'=>'UpdateSocialMedia','uses'=>'SettingController@UpdateSocialMedia']);
 	Route::post('/UpdatePagination',['as'=>'UpdatePagination','uses'=>'SettingController@UpdatePagination']);
 	/*Setting*/	
 
@@ -42,10 +41,19 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'Admin', 'middleware'=>['IsAdm
 	Route::get('/DeleteTelecom/{ID}',['as'=>'DeleteTelecom','uses'=>'TelecomController@Delete']);
 
 	/*Practitioner*/
-	Route::get('/practitioner',['as'=>'Identifier','uses'=>'PractitionerController@Practitioner']);
+	Route::get('/practitioner',['as'=>'Practitioner','uses'=>'PractitionerController@Practitioner']);
+	Route::get('/add-practitioner',['as'=>'AddPractitioner','uses'=>'PractitionerController@AddPractitioner']);
+	Route::post('/InsertPractitioner',['as'=>'InsertPractitioner','uses'=>'PractitionerController@InsertPractitioner']);
+	Route::get('/CheckPractitioner/{ID}',['as'=>'CheckPractitioner','uses'=>'PractitionerController@CheckPractitioner']);
+	Route::get('/DeletePractitioner/{ID}',['as'=>'DeletePractitioner','uses'=>'PractitionerController@DeletePractitioner']);
+	Route::get('/view-practitioner/{ID}',['as'=>'ViewPractitioner','uses'=>'PractitionerController@ViewPractitioner']);
 	
 	/*CareTeam*/
-	Route::get('/care-team',['as'=>'CareTeam','uses'=>'CareTeamController@CareTeam']);
+	Route::get('/care-team',['as'=>'CareTeam','uses'=>'PractitionerController@CareTeam']);
+	Route::get('/add-care-team',['as'=>'AddCareTeam','uses'=>'PractitionerController@AddCareTeam']);
+	Route::post('/InsertCareTeam',['as'=>'InsertCareTeam','uses'=>'PractitionerController@InsertCareTeam']);
+	Route::get('/view-care-team/{ID}',['as'=>'ViewCareTeam','uses'=>'PractitionerController@ViewCareTeam']);
+	Route::get('/DeleteCareTeam/{ID}',['as'=>'DeleteCareTeam','uses'=>'PractitionerController@DeleteCareTeam']);
 	
 
 });
