@@ -68,6 +68,9 @@
                           <a href="<?=route('DeleteCareTeam',array('ID'=>base64_encode($row->id)))?>" onclick="return confirm('Are you sure?')">
                             <button class="btn btn-danger"> <i class="fa fa-trash"></i> </button>
                           </a>
+                          <a href="<?=route('AssignCareTeam',array('ID'=>base64_encode($row->id)))?>">
+                            <button class="btn btn-secondary"> <i class="fa fa-link"></i></button>
+                          </a>
                         </td>
                       </tr>
                     <?php
