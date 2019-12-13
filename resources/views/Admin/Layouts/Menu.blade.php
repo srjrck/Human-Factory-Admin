@@ -39,6 +39,21 @@
           <i class="fa fa-briefcase"></i><span>Care Team</span>
         </a>
       </li>
+      <li @if($Menu=='Patient') class="active" @endif>
+        <a href="{{route('Patient')}}" class="waves-effect">
+          <i class="fa fa-briefcase"></i><span>Patient</span>
+        </a>
+      </li>
+      <li @if($Menu=='Encounter') class="active" @endif>
+        <a href="{{route('Encounter')}}" class="waves-effect">
+          <i class="fa fa-briefcase"></i><span>Encounter</span>
+        </a>
+      </li>
+      <li @if($Menu=='Role') class="active" @endif>
+        <a href="{{route('Role')}}" class="waves-effect">
+          <i class="fa fa-briefcase"></i><span>Role</span>
+        </a>
+      </li>
       <li @if($Menu=='Identifier') class="active" @endif>
         <a href="{{route('Identifier')}}" class="waves-effect">
           <i class="fa fa-briefcase"></i><span>Identifier</span>
