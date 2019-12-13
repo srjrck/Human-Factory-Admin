@@ -120,6 +120,7 @@ class PractitionerController extends Controller
 		Session::flash('message', $response); 
 		return Redirect()->back();
 	}
+	/*CareTeam*/
 	public function CareTeam()
 	{
 		$Data['Result'] 	= DB::table('resource')->where('is_removed','false')->where('type','CareTeam')->get();
@@ -128,7 +129,6 @@ class PractitionerController extends Controller
 		$Data['SubMenu'] 	= '';
 		return View('Admin/Resource/CareTeam')->with($Data);
 	}
-
 	public function ViewCareTeam($Id)
 	{
 		$id = base64_decode($Id);
@@ -140,5 +140,91 @@ class PractitionerController extends Controller
 		$Data['Menu'] 		= 'CareTeam';
 		$Data['SubMenu'] 	= '';
 		return View('Admin/Resource/ViewCareTeam')->with($Data);
+	}
+	public function AssignCareTeam($Id){
+		$careteam_id = base64_decode($Id);
+		$Data['Result'] 	= DB::table('assign')->where('careteam_id',$careteam_id)->get();
+		$Data['Title'] 		= 'CareTeam';
+		$Data['Menu'] 		= 'CareTeam';
+		$Data['SubMenu'] 	= '';
+		return View('Admin/Resource/AssignCareTeam')->with($Data);
+	}
+	public function InsertAssign(Request $request){
+		$Data = $request->all();
+
+		$practitioner_id = $Data['practitioner_id'];
+		$role_id = $Data['role_id'];
+
+		$identifierData = DB::table('identifier')->where('type','PRN')->where('resource_id',$practitioner_id)->first();
+
+		$TelecomData = DB::table('telecom')->where('system','email')->where('resource_id',$practitioner_id)->first();
+		$RoleData = DB::table('role')->where('id',$role_id)->first();
+		
+		$identifier[0]['value'] = $identifierData->value;
+		$identifier[0]['type'] = 'PRN';
+		
+		$telecom[0]['system'] = 'email';
+		$telecom[0]['value'] = $TelecomData->value;
+		
+		$Coding[0]['coding'][0]['system'] = $RoleData->system;	
+		$Coding[0]['coding'][0]['code'] = $RoleData->code;	
+		$Coding[0]['coding'][0]['display'] = $RoleData->display;	
+
+		$participant[0]['role'] = $Coding;
+
+		$fields['resourceType'] = 'CareTeam';
+		$fields['identifier'] 	= $identifier;
+		$fields['telecom'] 			= $telecom;
+		$fields['name'] 				= $identifierData->value;
+		$fields['participant'] 	= $participant;
+		$fields_string = json_encode($fields);
+		$response = Common::CurlAPI('PUT','CareTeam',$fields_string);
+		Session::flash('message', $response); 
+		return Redirect()->back();
+	}
+
+	/*Encounter*/
+	public function Encounter(){
+		$Data['Result'] 	= DB::table('resource')->where('is_removed','false')->where('type','Encounter')->get();
+		$Data['Title'] 		= 'Encounter';
+		$Data['Menu'] 		= 'Encounter';
+		$Data['SubMenu'] 	= '';
+		return View('Admin/Resource/Encounter')->with($Data);
+	}
+	public function ViewEncounter($ID){
+		$id = base64_decode($ID);
+		$Data['Result'] 	= DB::table('resource')->where('id',$id)->first();
+		$Data['Title'] 		= 'Encounter Details';
+		$Data['Menu'] 		= 'Encounter';
+		$Data['SubMenu'] 	= '';
+		return View('Admin/Resource/ViewEncounter')->with($Data);
+	}
+	
+	/*Patient*/
+	public function Patient(){
+		$Data['Result'] 	= DB::table('resource')->where('is_removed','false')->where('type','Patient')->get();
+		$Data['Title'] 		= 'Patient';
+		$Data['Menu'] 		= 'Patient';
+		$Data['SubMenu'] 	= '';
+		return View('Admin/Resource/Patient')->with($Data);
+	}
+	public function ViewPatient($ID){
+		$id = base64_decode($ID);
+		$Data['Result'] 	= DB::table('resource')->where('id',$id)->get();
+		$Data['NameList'] = DB::table('name')->where('resource_id',$id)->get();
+		$Data['IdentifierList'] = DB::table('identifier')->where('resource_id',$id)->get();
+		$Data['TelecomList'] = DB::table('telecom')->where('resource_id',$id)->get();
+		$Data['Title'] 		= 'Patient Details';
+		$Data['Menu'] 		= 'Patient';
+		$Data['SubMenu'] 	= '';
+		return View('Admin/Resource/ViewPatient')->with($Data);
+	}
+	public function DeletePatient($ID){
+		$id = base64_decode($ID);
+		$fields_string = json_encode([]);
+		$URL = 'Patient/'.$id;
+		$response = Common::CurlAPI('DELETE',$URL,$fields_string);
+		Session::flash('message', $response); 
+		return Redirect()->back();
 	}
 }
