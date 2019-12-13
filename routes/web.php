@@ -57,6 +57,13 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'Admin', 'middleware'=>['IsAdm
 	Route::get('/assign-care-team/{ID}',['as'=>'AssignCareTeam','uses'=>'PractitionerController@AssignCareTeam']);
 	Route::post('/InsertAssign',['as'=>'InsertAssign','uses'=>'PractitionerController@InsertAssign']);
 	
+	/*Encount*/
+	Route::get('/encounter',['as'=>'Encounter','uses'=>'PractitionerController@Encounter']);
+	Route::get('/view-encounter/{ID}',['as'=>'ViewEncounter','uses'=>'PractitionerController@ViewEncounter']);
+	
+	/*Patient*/
+	Route::get('/patient',['as'=>'Patient','uses'=>'PractitionerController@Patient']);
+
 	/*Role*/
 	Route::get('/role',['as'=>'Role','uses'=>'RoleController@List']);
 	Route::get('/add-Role',['as'=>'AddRole','uses'=>'RoleController@Add']);
