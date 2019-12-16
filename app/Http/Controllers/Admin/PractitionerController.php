@@ -144,6 +144,7 @@ class PractitionerController extends Controller
 	public function AssignCareTeam($Id){
 		$careteam_id = base64_decode($Id);
 		$Data['Result'] 	= DB::table('assign')->where('careteam_id',$careteam_id)->get();
+		$Data['careteam_id'] = $careteam_id;
 		$Data['Title'] 		= 'CareTeam';
 		$Data['Menu'] 		= 'CareTeam';
 		$Data['SubMenu'] 	= '';
@@ -152,12 +153,11 @@ class PractitionerController extends Controller
 	public function InsertAssign(Request $request){
 		$Data = $request->all();
 
-		$practitioner_id = $Data['practitioner_id'];
+		$careteam_id = $Data['careteam_id'];
 		$role_id = $Data['role_id'];
+		$identifierData = DB::table('identifier')->where('type','PRN')->where('resource_id',$careteam_id)->first();
 
-		$identifierData = DB::table('identifier')->where('type','PRN')->where('resource_id',$practitioner_id)->first();
-
-		$TelecomData = DB::table('telecom')->where('system','email')->where('resource_id',$practitioner_id)->first();
+		$TelecomData = DB::table('telecom')->where('system','email')->where('resource_id',$careteam_id)->first();
 		$RoleData = DB::table('role')->where('id',$role_id)->first();
 		
 		$identifier[0]['value'] = $identifierData->value;
@@ -166,19 +166,36 @@ class PractitionerController extends Controller
 		$telecom[0]['system'] = 'email';
 		$telecom[0]['value'] = $TelecomData->value;
 		
-		$Coding[0]['coding'][0]['system'] = $RoleData->system;	
-		$Coding[0]['coding'][0]['code'] = $RoleData->code;	
-		$Coding[0]['coding'][0]['display'] = $RoleData->display;	
+		$practitionerArr = $Data['practitioner_id'];
+		$i=0;
+		foreach ($practitionerArr as $practitioner_id) {
+			$Coding[0]['coding'][0]['system'] = $RoleData->system;	
+			$Coding[0]['coding'][0]['code'] = $RoleData->code;	
+			$Coding[0]['coding'][0]['display'] = $RoleData->display;	
 
-		$participant[0]['role'] = $Coding;
+			$member = "{{base}}/{{path}}/Practitioner/".$practitioner_id;
 
+			$participant[$i]['role'] = $Coding;
+			$participant[$i]['member'] = [$member];
+
+			$Assign['careteam_id'] 		= $careteam_id;
+			$Assign['participant_id'] = $practitioner_id;
+			$Assign['add_date'] 			= date('Y-m-d H:i:s');
+
+			DB::table('assign')->insert($Assign);
+
+			$i++;
+		}
+		
 		$fields['resourceType'] = 'CareTeam';
 		$fields['identifier'] 	= $identifier;
 		$fields['telecom'] 			= $telecom;
 		$fields['name'] 				= $identifierData->value;
 		$fields['participant'] 	= $participant;
 		$fields_string = json_encode($fields);
-		$response = Common::CurlAPI('PUT','CareTeam',$fields_string);
+		$URL = 'CareTeam/'.$careteam_id;
+		$response = Common::CurlAPI('PUT',$URL,$fields_string);
+		//echo '<pre>';print_r($response);die;
 		Session::flash('message', $response); 
 		return Redirect()->back();
 	}
