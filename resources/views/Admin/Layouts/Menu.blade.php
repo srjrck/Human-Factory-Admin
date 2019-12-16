@@ -54,7 +54,7 @@
           <i class="fa fa-briefcase"></i><span>Role</span>
         </a>
       </li>
-      <li @if($Menu=='Identifier') class="active" @endif>
+      <!-- <li @if($Menu=='Identifier') class="active" @endif>
         <a href="{{route('Identifier')}}" class="waves-effect">
           <i class="fa fa-briefcase"></i><span>Identifier</span>
         </a>
@@ -68,6 +68,6 @@
         <a href="{{route('Telecom')}}" class="waves-effect">
           <i class="fa fa-briefcase"></i><span>Telecom</span>
         </a>
-      </li>
+      </li> -->
     </ul>
   </div>
