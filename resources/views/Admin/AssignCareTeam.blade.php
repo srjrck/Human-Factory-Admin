@@ -91,7 +91,9 @@
                       <th>ID</th>
                       <th>Family</th>
                       <th>Given</th>
+                      <th>Role</th>
                       <th>Date</th>
+                      <th>Delete</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -99,12 +101,24 @@
                     $i=1;
                     foreach($Result as $row){
                       $name = DB::table('name')->where('resource_id',$row->participant_id)->first();
+
+                      $assign_arr = DB::table('role')->whereIn('id',explode(',',$row->role_id))->get();
                     ?>  
                       <tr>
                         <td>{{$i}}</td>
                         <td>{{$name->family}}</td>
                         <td>{{$name->given}}</td>
-                        <td>{{$row->add_date}}</td>
+                        <td>
+                          @foreach($assign_arr as $role)
+                            {{$role->code}}<br/>
+                          @endforeach
+                        </td>
+                        <td>{{date('Y-m-d',strtotime($row->add_date))}}</td>
+                        <td>
+                          <a href="<?=route('DeleteCareTeamAssign',array('ID'=>base64_encode($row->id)))?>" onclick="return confirm('Are you sure?')">
+                            <button class="btn btn-danger"> <i class="fa fa-trash"></i> </button>
+                          </a>
+                        </td>
                       </tr>
                     <?php
                       $i++;
