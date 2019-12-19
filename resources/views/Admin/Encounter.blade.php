@@ -32,11 +32,11 @@
                 <div class="col-sm-6">
                   <h5 class="card-title">Encounter List</h5>
                 </div>
-                <!-- <div class="col-sm-6">
-                  <a href="{{route('AddCareTeam')}}">
+                <div class="col-sm-6">
+                  <a href="{{route('AddEncounter')}}">
                     <button type="button" class="btn btn-secondary m-1 pull-right">Add Encounter</button>
                   </a>
-                </div> -->
+                </div>
               </div>
               <div class="table-responsive">
                 <table class="table table-bordered" id="default-datatable">
