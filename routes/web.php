@@ -56,6 +56,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'Admin', 'middleware'=>['IsAdm
 	Route::get('/DeleteCareTeam/{ID}',['as'=>'DeleteCareTeam','uses'=>'PractitionerController@DeleteCareTeam']);
 	Route::get('/assign-care-team/{ID}',['as'=>'AssignCareTeam','uses'=>'PractitionerController@AssignCareTeam']);
 	Route::post('/InsertAssign',['as'=>'InsertAssign','uses'=>'PractitionerController@InsertAssign']);
+	Route::get('/DeleteCareTeamAssign/{ID}',['as'=>'DeleteCareTeamAssign','uses'=>'PractitionerController@DeleteCareTeamAssign']);
 	
 	/*Encount*/
 	Route::get('/encounter',['as'=>'Encounter','uses'=>'PractitionerController@Encounter']);
