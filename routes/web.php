@@ -1,6 +1,8 @@
 <?php
 /*Admin Panel*/
 Route::get('/Admin', ['as' => 'Login', 'uses' => 'Admin\LoginController@Login']);
+Route::get('/User', ['as' => 'UserLogin', 'uses' => 'Admin\UserController@Login']);
+Route::post('/Admin/UserLoginValidate', ['as' => 'UserLoginValidate', 'uses' => 'Admin\UserController@UserLoginValidate']);
 Route::post('/Admin/AdminLoginValidate', ['as' => 'AdminLoginValidate', 'uses' => 'Admin\LoginController@AdminLoginValidate']);
 Route::get('/Admin/reset-password', ['as' => 'ResetPassword', 'uses' => 'Admin\LoginController@ResetPassword']);
 Route::post('/Admin/CheckResetPassword', ['as' => 'CheckResetPassword', 'uses' => 'Admin\LoginController@CheckResetPassword']);
@@ -62,6 +64,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'Admin', 'middleware'=>['IsAdm
 	Route::get('/encounter',['as'=>'Encounter','uses'=>'PractitionerController@Encounter']);
 	Route::get('/add-encounter',['as'=>'AddEncounter','uses'=>'PractitionerController@AddEncounter']);
 	Route::get('/view-encounter/{ID}',['as'=>'ViewEncounter','uses'=>'PractitionerController@ViewEncounter']);
+	Route::get('/DeleteEncounter/{ID}',['as'=>'DeleteEncounter','uses'=>'PractitionerController@DeleteEncounter']);
+	Route::get('/edit-encounter/{ID}',['as'=>'EditEncounter','uses'=>'PractitionerController@EditEncounter']);
 	Route::post('/InsertEncount',['as'=>'InsertEncount','uses'=>'PractitionerController@InsertEncount']);
 	
 	/*Patient*/
@@ -69,7 +73,9 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'Admin', 'middleware'=>['IsAdm
 	Route::get('/add-patient',['as'=>'AddPatient','uses'=>'PractitionerController@AddPatient']);
 	Route::get('/view-patient/{ID}',['as'=>'ViewPatient','uses'=>'PractitionerController@ViewPatient']);
 	Route::get('/DeletePatient/{ID}',['as'=>'DeletePatient','uses'=>'PractitionerController@DeletePatient']);
+	Route::get('/edit-patient/{ID}',['as'=>'EditPatient','uses'=>'PractitionerController@EditPatient']);
 	Route::post('/InsertPatient',['as'=>'InsertPatient','uses'=>'PractitionerController@InsertPatient']);
+	Route::post('/SavePatient',['as'=>'SavePatient','uses'=>'PractitionerController@SavePatient']);
 
 	/*Role*/
 	Route::get('/role',['as'=>'Role','uses'=>'RoleController@List']);
