@@ -22,7 +22,7 @@ class IdentifierController extends Controller
 
 	public function Identifier()
 	{
-		$Data['Identifier'] 	= DB::table('identifier')->orderBy('id','DESC')->get();
+		$Data['Identifier'] 	= DB::table('identifier')->where('is_removed','false')->orderBy('id','DESC')->get();
 		$Data['Title'] 		= 'Identifier';
 		$Data['Menu'] 		= 'Identifier';
 		$Data['SubMenu'] 	= '';
@@ -32,19 +32,19 @@ class IdentifierController extends Controller
 	public function Add()
 	{
 		$Data['ResourceList'] 	= DB::table('resource')->get();
-		$Data['Title'] 		= 'Identifier';
-		$Data['Menu'] 		= 'Identifier';
-		$Data['SubMenu'] 	= '';
+		$Data['Title'] 		    = 'Identifier';
+		$Data['Menu'] 		    = 'Identifier';
+		$Data['SubMenu'] 	    = '';
 		return View('Admin/Identifier/Add')->with($Data);
 	}
 	public function Save(Request $request){
 		$Data = $request->all();
-		$Save['resource_id'] = $Data['resource_id'];
-		$Save['type'] = $Data['type'];
-		$Save['value'] = $Data['value'];
-		$Save['entry_by'] = 0;
-		$Save['is_removed'] = 'false';
-		$Save['created_at'] = date('Y-m-d H:i:s');
+		$Save['resource_id']     = $Data['resource_id'];
+		$Save['type']            = $Data['type'];
+		$Save['value']           = $Data['value'];
+		$Save['entry_by']        = 0;
+		$Save['is_removed']      = 'false';
+		$Save['created_at']      = date('Y-m-d H:i:s');
 		DB::table('identifier')->insert($Save);
 		$msg = Common::AlertErrorMsg('Success','Save Successfully');
 		Session::flash('message', $msg); 
@@ -55,9 +55,9 @@ class IdentifierController extends Controller
 		$Row = DB::table('identifier')->where('id',$id)->first();
 		$Data['ResourceList'] 	= DB::table('resource')->get();
 		$Data['row'] 			= $Row;
-		$Data['Title'] 		= 'Identifier';
-		$Data['Menu'] 		= 'Identifier';
-		$Data['SubMenu'] 	= '';
+		$Data['Title'] 		    = 'Identifier';
+		$Data['Menu'] 		    = 'Identifier';
+		$Data['SubMenu'] 	    = '';
 		return View('Admin/Identifier/Edit')->with($Data);
 	}
 	public function SaveData(Request $request){
